@@ -12,7 +12,7 @@ RUN apk --update upgrade && \
     apk add ca-certificates curl && \
     apk add --virtual .build-depends \
       file gnupg g++ make \
-      boost-dev libressl-dev sqlite3-dev \
+      boost-dev libressl-dev sqlite-dev \
       mariadb-dev postgresql-dev python3-dev && \
     curl -RL -O "https://ftp.isc.org/isc/kea/${KEA_VERSION}/kea-${KEA_VERSION}.tar.gz{,.sha512.asc}" && \
     curl -RL -O "https://botan.randombit.net/releases/Botan-${BOTAN_VERSION}.tgz{.asc,}" && \
@@ -53,7 +53,7 @@ LABEL maintainer="https://keybase.io/tcely"
 
 RUN apk --update upgrade && \
     apk add ca-certificates curl less man \
-        boost libressl sqlite3 \
+        boost libressl sqlite \
         mariadb-libs postgresql-libs python3 && \
     rm -rf /var/cache/apk/*
 
