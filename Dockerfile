@@ -35,4 +35,10 @@ RUN apk --update upgrade && \
 
 ENV PAGER less
 
-COPY --from=builder /usr/local /usr/local/
+COPY --from=builder /usr/local/bin/botan /usr/local/bin/botan
+COPY --from=builder /usr/local/include/botan-2 /usr/local/include/botan-2/
+COPY --from=builder /usr/local/lib /usr/local/lib/
+COPY --from=builder /usr/local/share/doc /usr/local/share/doc/
+
+ENTRYPOINT ["/bin/ls"]
+CMD ["-alR", "/usr/local"]
