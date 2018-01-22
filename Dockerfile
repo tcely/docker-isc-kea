@@ -42,7 +42,7 @@ RUN apk --update upgrade && \
     rm -f "kea-${KEA_VERSION}.tar.gz" && \
     ( \
         cd "kea-${KEA_VERSION}" && \
-        ./configure && \
+        ./configure --enable-shell --with-dhcp-mysql=/usr/bin/mysql_config --with-dhcp-pgsql=/usr/bin/pg_config && \
         make -j 4 && \
         make install-strip \
     ) && \
