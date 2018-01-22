@@ -8,7 +8,7 @@ RUN apk --update upgrade && \
     apk add ca-certificates curl && \
     apk add --virtual .build-depends \
       file gnupg g++ make \
-      boost-dev && \
+      && \
     curl -RLJ -O "https://sourceforge.net/projects/log4cplus/files/log4cplus-stable/${LOG4CPLUS_VERSION%%-*}/log4cplus-${LOG4CPLUS_VERSION}.tar.gz{.sig,}/download" && \
     mkdir -v -m 0700 -p /root/.gnupg && \
     gpg2 --no-options --verbose --keyserver-options auto-key-retrieve=true --keyid-format 0xlong --verify log4cplus-*.sig log4cplus-*.tar.gz && \
@@ -26,9 +26,7 @@ RUN apk --update upgrade && \
 FROM alpine
 LABEL maintainer="https://keybase.io/tcely"
 
-RUN apk --update upgrade && \
-    apk add less \
-        && \
+RUN apk --update --no-cache add less && \
     rm -rf /var/cache/apk/*
 
 ENV PAGER less
