@@ -13,18 +13,23 @@ COPY cql_config /usr/local/bin/cql_config
 RUN apk --update upgrade && \
     apk add bash ca-certificates curl && \
     apk add --virtual .build-depends \
-      file gnupg g++ make \
-      boost-dev bzip2-dev libressl-dev sqlite-dev zlib-dev \
-      cassandra-cpp-driver-dev mariadb-dev postgresql-dev python3-dev && \
+        file gnupg g++ make \
+        boost-dev bzip2-dev libressl-dev sqlite-dev zlib-dev \
+        cassandra-cpp-driver-dev mariadb-dev postgresql-dev python3-dev && \
     curl -RL -O "https://ftp.isc.org/isc/kea/${KEA_VERSION}/kea-${KEA_VERSION}.tar.gz{,.sha512.asc}" && \
     mkdir -v -m 0700 -p /root/.gnupg && \
-    gpg2 --no-options --verbose --keyserver-options auto-key-retrieve=true --keyid-format 0xlong --verify kea-*.asc kea-*.tar.gz && \
+    gpg2 --no-options --verbose --keyid-format 0xlong --keyserver-options auto-key-retrieve=true \
+        --verify kea-*.asc kea-*.tar.gz && \
     rm -rf /root/.gnupg *.asc && \
     tar -xpf "kea-${KEA_VERSION}.tar.gz" && \
     rm -f "kea-${KEA_VERSION}.tar.gz" && \
     ( \
         cd "kea-${KEA_VERSION}" && \
-        ./configure --enable-shell --with-dhcp-mysql=/usr/bin/mysql_config --with-dhcp-pgsql=/usr/bin/pg_config --with-cql=/usr/local/bin/cql_config && \
+        ./configure \
+            --enable-shell \
+            --with-cql=/usr/local/bin/cql_config \
+            --with-dhcp-mysql=/usr/bin/mysql_config \
+            --with-dhcp-pgsql=/usr/bin/pg_config && \
         make -j 4 && \
         make install-strip \
     ) && \
