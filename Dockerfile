@@ -59,10 +59,11 @@ RUN apk --update upgrade && \
 
 ENV PAGER less
 
-RUN addgroup -S dnsdist && \
-    adduser -S -D -G dnsdist dnsdist
+#RUN addgroup -S dnsdist && \
+#    adduser -S -D -G dnsdist dnsdist
 
-#COPY --from=builder /usr/local/bin /usr/local/bin/
+COPY --from=builder /usr/local /usr/local
+#COPY --from=builder /usr/local/lib /usr/local/lib/
 #COPY --from=builder /usr/share/man/man1 /usr/share/man/man1/
 
 #ENTRYPOINT ["/usr/local/bin/dnsdist"]
