@@ -11,7 +11,7 @@ RUN apk --update upgrade && \
     apk add --virtual .build-depends \
       file gnupg g++ make \
       boost-dev bzip2-dev libressl-dev sqlite-dev zlib-dev \
-      mariadb-dev postgresql-dev python3-dev && \
+      cassandra-cpp-driver-dev mariadb-dev postgresql-dev python3-dev && \
     curl -RL -O "https://ftp.isc.org/isc/kea/${KEA_VERSION}/kea-${KEA_VERSION}.tar.gz{,.sha512.asc}" && \
     curl -RLJ -O "https://sourceforge.net/projects/log4cplus/files/log4cplus-stable/${LOG4CPLUS_VERSION%%-*}/log4cplus-${LOG4CPLUS_VERSION}.tar.gz{.sig,}/download" && \
     mkdir -v -m 0700 -p /root/.gnupg && \
@@ -42,7 +42,7 @@ LABEL maintainer="https://keybase.io/tcely"
 RUN apk --update upgrade && \
     apk add ca-certificates curl less man \
         boost bzip2 libressl sqlite zlib \
-        mariadb-libs postgresql-libs python3 && \
+        cassandra-cpp-driver mariadb-libs postgresql-libs python3 && \
     rm -rf /var/cache/apk/*
 
 ENV PAGER less
