@@ -20,7 +20,7 @@ RUN apk --update upgrade && \
         cd "Botan-${BOTAN_VERSION}" && \
         ./configure.py --with-boost --with-bzip2 --with-openssl --with-sqlite3 --with-zlib && \
         make -j 4 && \
-        make install-strip \
+        make install \
     ) && \
     apk del --purge .build-depends && rm -rf /var/cache/apk/*
 
