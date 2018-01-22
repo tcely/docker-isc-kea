@@ -7,7 +7,6 @@ FROM alpine AS builder
 ARG KEA_VERSION
 ARG BOTAN_VERSION
 ARG LOG4CPLUS_VERSION
-ARG EXTRA_KEY
 
 RUN apk --update upgrade && \
     apk add ca-certificates curl && \
@@ -19,7 +18,6 @@ RUN apk --update upgrade && \
     curl -RLJ -O "https://botan.randombit.net/releases/Botan-${BOTAN_VERSION}.tgz{.asc,}" && \
     curl -RLJ -O "https://sourceforge.net/projects/log4cplus/files/log4cplus-stable/${LOG4CPLUS_VERSION}/log4cplus-${LOG4CPLUS_VERSION}.tar.gz{.sig,}/download" && \
     mkdir -v -m 0700 -p /root/.gnupg && \
-    ( [ -z "${EXTRA_KEY}" ] || gpg2 --no-options --verbose --keyid-format 0xlong --recv-key "${EXTRA_KEY}" ) && \
     gpg2 --no-options --verbose --keyserver-options auto-key-retrieve=true --keyid-format 0xlong --verify Botan-*.asc Botan-*.tgz && \
     gpg2 --no-options --verbose --keyserver-options auto-key-retrieve=true --keyid-format 0xlong --verify log4cplus-*.sig log4cplus-*.tar.gz && \
     gpg2 --no-options --verbose --keyserver-options auto-key-retrieve=true --keyid-format 0xlong --verify kea-*.asc kea-*.tar.gz && \
