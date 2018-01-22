@@ -27,7 +27,7 @@ RUN apk --update upgrade && \
     ( \
         cd "Botan-${BOTAN_VERSION}" && \
         ./configure.py && \
-        make -j 2 && \
+        make -j 4 && \
         make install \
     ) && \
     tar -xpf "log4cplus-${LOG4CPLUS_VERSION}.tar.gz" && \
@@ -35,7 +35,7 @@ RUN apk --update upgrade && \
     ( \
         cd "log4cplus-${LOG4CPLUS_VERSION}" && \
         ./configure && \
-        make && \
+        make -j 2 && \
         make install \
     ) && \
     tar -xpf "kea-${KEA_VERSION}.tar.gz" && \
@@ -43,7 +43,7 @@ RUN apk --update upgrade && \
     ( \
         cd "kea-${KEA_VERSION}" && \
         ./configure && \
-        make -j 2 && \
+        make -j 4 && \
         make install-strip \
     ) && \
     apk del --purge .build-depends && rm -rf /var/cache/apk/*
