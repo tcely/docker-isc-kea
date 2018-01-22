@@ -22,6 +22,14 @@ RUN apk --update upgrade && \
     gpg2 --no-options --verbose --keyserver-options auto-key-retrieve=true --keyid-format 0xlong --verify log4cplus-*.sig log4cplus-*.tar.gz && \
     gpg2 --no-options --verbose --keyserver-options auto-key-retrieve=true --keyid-format 0xlong --verify kea-*.asc kea-*.tar.gz && \
     rm -rf /root/.gnupg *.asc && \
+    tar -xvvpf "Botan-${BOTAN_VERSION}.tgz" && \
+    rm -f "Botan-${BOTAN_VERSION}.tgz" && \
+    ( \
+        cd "Botan-${BOTAN_VERSION}" && \
+        ./configure.py && \
+        make -j 2 && \
+        make install \
+    ) && \
     tar -xpf "log4cplus-${LOG4CPLUS_VERSION}.tar.gz" && \
     rm -f "log4cplus-${LOG4CPLUS_VERSION}.tar.gz" && \
     ( \
