@@ -1,11 +1,9 @@
 ARG KEA_VERSION=1.3.0
-ARG BOTAN_VERSION=2.4.0
 ARG LOG4CPLUS_VERSION=1.2.1-rc2
 
 FROM alpine AS builder
 
 ARG KEA_VERSION
-ARG BOTAN_VERSION
 ARG LOG4CPLUS_VERSION
 
 RUN apk --update upgrade && \
@@ -15,21 +13,11 @@ RUN apk --update upgrade && \
       boost-dev bzip2-dev libressl-dev sqlite-dev zlib-dev \
       mariadb-dev postgresql-dev python3-dev && \
     curl -RL -O "https://ftp.isc.org/isc/kea/${KEA_VERSION}/kea-${KEA_VERSION}.tar.gz{,.sha512.asc}" && \
-    curl -RL -O "https://botan.randombit.net/releases/Botan-${BOTAN_VERSION}.tgz{.asc,}" && \
     curl -RLJ -O "https://sourceforge.net/projects/log4cplus/files/log4cplus-stable/${LOG4CPLUS_VERSION%%-*}/log4cplus-${LOG4CPLUS_VERSION}.tar.gz{.sig,}/download" && \
     mkdir -v -m 0700 -p /root/.gnupg && \
-    gpg2 --no-options --verbose --keyserver-options auto-key-retrieve=true --keyid-format 0xlong --verify Botan-*.asc Botan-*.tgz && \
     gpg2 --no-options --verbose --keyserver-options auto-key-retrieve=true --keyid-format 0xlong --verify log4cplus-*.sig log4cplus-*.tar.gz && \
     gpg2 --no-options --verbose --keyserver-options auto-key-retrieve=true --keyid-format 0xlong --verify kea-*.asc kea-*.tar.gz && \
     rm -rf /root/.gnupg *.asc && \
-    tar -xpf "Botan-${BOTAN_VERSION}.tgz" && \
-    rm -f "Botan-${BOTAN_VERSION}.tgz" && \
-    ( \
-        cd "Botan-${BOTAN_VERSION}" && \
-        ./configure.py --with-boost --with-bzip2 --with-openssl --with-sqlite3 --with-zlib && \
-        make -j 4 && \
-        make install \
-    ) && \
     tar -xpf "log4cplus-${LOG4CPLUS_VERSION}.tar.gz" && \
     rm -f "log4cplus-${LOG4CPLUS_VERSION}.tar.gz" && \
     ( \
