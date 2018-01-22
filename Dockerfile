@@ -9,7 +9,7 @@ RUN apk --update upgrade && \
     apk add --virtual .build-depends \
       file gnupg g++ make \
       boost-dev bzip2-dev libressl-dev sqlite-dev zlib-dev \
-      python3-dev && \
+      binutils python3-dev && \
     curl -RL -O "https://botan.randombit.net/releases/Botan-${BOTAN_VERSION}.tgz{.asc,}" && \
     mkdir -v -m 0700 -p /root/.gnupg && \
     gpg2 --no-options --verbose --keyserver-options auto-key-retrieve=true --keyid-format 0xlong --verify Botan-*.asc Botan-*.tgz && \
@@ -22,6 +22,7 @@ RUN apk --update upgrade && \
         make -j 4 && \
         make install \
     ) && \
+    strip -p -s /usr/local/bin/botan && \
     apk del --purge .build-depends && rm -rf /var/cache/apk/*
 
 FROM alpine
