@@ -13,6 +13,7 @@ RUN apk --update upgrade && \
       libedit-dev re2-dev && \
     curl -RL -O "https://ftp.isc.org/isc/kea/${KEA_VERSION}/kea-${KEA_VERSION}.tar.gz{,.sha512.asc}" && \
     curl -RL -o SigningKeys 'https://www.isc.org/about/openpgp' && \
+    sed -i -e 's/^<pre>//' SigningKeys && \
     mkdir -v -m 0700 -p /root/.gnupg && \
     gpg2 --no-options --verbose --keyid-format 0xlong --import SigningKeys && rm -f SigningKeys && \
     ( [ -z "${EXTRA_KEY}" ] || gpg2 --no-options --verbose --keyid-format 0xlong --recv-key "${EXTRA_KEY}" ) && \
