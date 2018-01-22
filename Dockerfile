@@ -26,7 +26,7 @@ RUN apk --update upgrade && \
     rm -f "Botan-${BOTAN_VERSION}.tgz" && \
     ( \
         cd "Botan-${BOTAN_VERSION}" && \
-        ./configure.py --minimized-build --with-boost --with-bzip2 --with-openssl --with-sqlite3 --with-zlib && \
+        ./configure.py --with-boost --with-bzip2 --with-openssl --with-sqlite3 --with-zlib && \
         make -j 4 && \
         make install \
     ) && \
