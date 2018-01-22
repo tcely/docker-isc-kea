@@ -1,12 +1,14 @@
 ARG KEA_VERSION=1.3.0
 
 FROM tcely/isc-kea:dependency-log4cplus AS log4cplus
+FROM tcely/isc-kea:dependency-botan AS botan
 
 FROM alpine AS builder
 
 ARG KEA_VERSION
 
 COPY --from=log4cplus /usr/local /usr/local/
+COPY --from=botan /usr/local /usr/local/
 
 COPY cql_config /usr/local/bin/cql_config
 
