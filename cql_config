@@ -1,0 +1,46 @@
+#!/bin/bash
+
+if [ $# -ne 1 ]
+then
+  set -- --help
+fi
+
+case "$1" in
+  (--help)
+    printf 1>&2 -- '%s\n' \
+      '--help' \
+      '    print this help message' \
+      '--cppflags' \
+      '    get cpp compilation flags' \
+      '--includedir' \
+      '    get include path' \
+      '--libdir' \
+      '    get lib path' \
+      '--version' \
+      '    get version'
+    ;;
+  (--cppflags)
+    #echo ''
+    ;;
+  (--includedir)
+    echo '/usr/include'
+    ;;
+  (--libdir)
+    echo '/usr/lib'
+    ;;
+  (--version)
+    _dir="$("$0" --includedir)"
+    _major="$(grep 2>/dev/null 'VERSION_MAJOR' "${_dir}/cassandra.h" | cut -d ' ' -f 3)"
+    _minor="$(grep 2>/dev/null 'VERSION_MINOR' "${_dir}/cassandra.h" | cut -d ' ' -f 3)"
+    _patch="$(grep 2>/dev/null 'VERSION_PATCH' "${_dir}/cassandra.h" | cut -d ' ' -f 3)"
+    [ -n "$_major" ] && printf -- '%s.%s.%s\n' "$_major" "$_minor" "$_patch" || exit 1
+    ;;
+  (*)
+    printf 1>&2 -- '%s\n' \
+      'wrong parameter' \
+      "run: \"${0##*/} --help\" for more details"
+    exit 1
+    ;;
+esac
+
+exit 0

@@ -6,8 +6,10 @@ FROM alpine AS builder
 ARG KEA_VERSION
 ARG LOG4CPLUS_VERSION
 
+COPY cql_config /usr/local/bin/cql_config
+
 RUN apk --update upgrade && \
-    apk add ca-certificates curl && \
+    apk add bash ca-certificates curl && \
     apk add --virtual .build-depends \
       file gnupg g++ make \
       boost-dev bzip2-dev libressl-dev sqlite-dev zlib-dev \
@@ -30,7 +32,7 @@ RUN apk --update upgrade && \
     rm -f "kea-${KEA_VERSION}.tar.gz" && \
     ( \
         cd "kea-${KEA_VERSION}" && \
-        ./configure --enable-shell --with-dhcp-mysql=/usr/bin/mysql_config --with-dhcp-pgsql=/usr/bin/pg_config && \
+        ./configure --enable-shell --with-dhcp-mysql=/usr/bin/mysql_config --with-dhcp-pgsql=/usr/bin/pg_config --with-cql=/usr/local/bin/cql_config && \
         make -j 4 && \
         make install-strip \
     ) && \
