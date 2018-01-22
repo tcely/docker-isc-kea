@@ -41,9 +41,6 @@ RUN apk --update upgrade && \
 
 ENV PAGER less
 
-#RUN addgroup -S dnsdist && \
-#    adduser -S -D -G dnsdist dnsdist
-
 COPY --from=builder /usr/local /usr/local/
 
 ENTRYPOINT ["/usr/local/sbin/kea-dhcp4"]
