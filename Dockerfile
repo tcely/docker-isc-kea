@@ -1,8 +1,10 @@
 ARG KEA_VERSION=1.3.0
+ARG LOG4CPLUS_VERSION=1.2.0
 
 FROM alpine AS builder
 
 ARG KEA_VERSION
+ARG LOG4CPLUS_VERSION
 ARG EXTRA_KEY
 
 RUN apk --update upgrade && \
@@ -12,14 +14,15 @@ RUN apk --update upgrade && \
       boost-dev libressl-dev libsodium-dev lua-dev net-snmp-dev protobuf-dev \
       libedit-dev re2-dev && \
     curl -RL -O "https://ftp.isc.org/isc/kea/${KEA_VERSION}/kea-${KEA_VERSION}.tar.gz{,.sha512.asc}" && \
-    curl -RL -o SigningKeys 'https://www.isc.org/about/openpgp' && \
-    sed -i -e 's/^<pre>//' SigningKeys && \
+    curl -RLJ -O "https://sourceforge.net/projects/log4cplus/files/log4cplus-stable/${LOG4CPLUS_VERSION}/log4cplus-${LOG4CPLUS_VERSION}.tar.gz{.sig,}/download" && \
     mkdir -v -m 0700 -p /root/.gnupg && \
-    gpg2 --no-options --verbose --keyid-format 0xlong --import SigningKeys && rm -f SigningKeys && \
     ( [ -z "${EXTRA_KEY}" ] || gpg2 --no-options --verbose --keyid-format 0xlong --recv-key "${EXTRA_KEY}" ) && \
-    gpg2 --no-options --verbose --keyid-format 0xlong --verify kea-*.asc kea-*.tar.gz && \
+    gpg2 --no-options --verbose --keyserver-options auto-key-retrieve=true --keyid-format 0xlong --verify log4cplus-*.sig log4cplus-*.tar.gz && \
+    gpg2 --no-options --verbose --keyserver-options auto-key-retrieve=true --keyid-format 0xlong --verify kea-*.asc kea-*.tar.gz && \
     rm -rf /root/.gnupg *.asc && \
-    tar -xvvpf "kea-${KEA_VERSION}.tar.gz" && \
+    tar -xvvpf "log4cplus-${LOG4CPLUS_VERSION}.tar.gz" && \
+    rm -f "log4cplus-${LOG4CPLUS_VERSION}.tar.gz" && \
+    tar -xpf "kea-${KEA_VERSION}.tar.gz" && \
     rm -f "kea-${KEA_VERSION}.tar.gz" && \
     ( \
         cd "kea-${KEA_VERSION}" && \
