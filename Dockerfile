@@ -20,8 +20,14 @@ RUN apk --update upgrade && \
     gpg2 --no-options --verbose --keyserver-options auto-key-retrieve=true --keyid-format 0xlong --verify log4cplus-*.sig log4cplus-*.tar.gz && \
     gpg2 --no-options --verbose --keyserver-options auto-key-retrieve=true --keyid-format 0xlong --verify kea-*.asc kea-*.tar.gz && \
     rm -rf /root/.gnupg *.asc && \
-    tar -xvvpf "log4cplus-${LOG4CPLUS_VERSION}.tar.gz" && \
+    tar -xpf "log4cplus-${LOG4CPLUS_VERSION}.tar.gz" && \
     rm -f "log4cplus-${LOG4CPLUS_VERSION}.tar.gz" && \
+    ( \
+        cd "log4cplus-${LOG4CPLUS_VERSION}" && \
+        ./configure && \
+        make && \
+        make install \
+    ) && \
     tar -xpf "kea-${KEA_VERSION}.tar.gz" && \
     rm -f "kea-${KEA_VERSION}.tar.gz" && \
     ( \
