@@ -24,7 +24,7 @@ RUN apk --update upgrade && \
         cd "log4cplus-${LOG4CPLUS_VERSION}" && \
         ./configure && \
         make -j 2 && \
-        make install \
+        make install-strip \
     ) && \
     tar -xpf "kea-${KEA_VERSION}.tar.gz" && \
     rm -f "kea-${KEA_VERSION}.tar.gz" && \
@@ -40,9 +40,9 @@ FROM alpine
 LABEL maintainer="https://keybase.io/tcely"
 
 RUN apk --update upgrade && \
-    apk add ca-certificates curl less man \
+    apk add bash ca-certificates curl less man procps \
         boost bzip2 libressl sqlite zlib \
-        cassandra-cpp-driver mariadb-libs postgresql-libs python3 && \
+        cassandra-cpp-driver mariadb-client-libs postgresql-libs python3 && \
     rm -rf /var/cache/apk/*
 
 ENV PAGER less
@@ -50,9 +50,7 @@ ENV PAGER less
 #RUN addgroup -S dnsdist && \
 #    adduser -S -D -G dnsdist dnsdist
 
-COPY --from=builder /usr/local /usr/local
-#COPY --from=builder /usr/local/lib /usr/local/lib/
-#COPY --from=builder /usr/share/man/man1 /usr/share/man/man1/
+COPY --from=builder /usr/local /usr/local/
 
-#ENTRYPOINT ["/usr/local/bin/dnsdist"]
-#CMD ["--help"]
+ENTRYPOINT ["/usr/local/sbin/kea-dhcp4"]
+CMD ["-c", "/usr/local/etc/kea/kea-dhcp4.conf"]
