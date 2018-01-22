@@ -12,7 +12,7 @@ RUN apk --update upgrade && \
     apk add ca-certificates curl && \
     apk add --virtual .build-depends \
       file gnupg g++ make \
-      boost-dev libressl-dev sqlite-dev \
+      boost-dev bzip2-dev libressl-dev sqlite-dev zlib-dev \
       mariadb-dev postgresql-dev python3-dev && \
     curl -RL -O "https://ftp.isc.org/isc/kea/${KEA_VERSION}/kea-${KEA_VERSION}.tar.gz{,.sha512.asc}" && \
     curl -RL -O "https://botan.randombit.net/releases/Botan-${BOTAN_VERSION}.tgz{.asc,}" && \
@@ -26,7 +26,7 @@ RUN apk --update upgrade && \
     rm -f "Botan-${BOTAN_VERSION}.tgz" && \
     ( \
         cd "Botan-${BOTAN_VERSION}" && \
-        ./configure.py && \
+        ./configure.py --minimized-build --with-boost --with-bzip2 --with-openssl --with-sqlite3 --with-zlib && \
         make -j 4 && \
         make install \
     ) && \
@@ -53,7 +53,7 @@ LABEL maintainer="https://keybase.io/tcely"
 
 RUN apk --update upgrade && \
     apk add ca-certificates curl less man \
-        boost libressl sqlite \
+        boost bzip2 libressl sqlite zlib \
         mariadb-libs postgresql-libs python3 && \
     rm -rf /var/cache/apk/*
 
