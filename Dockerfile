@@ -16,7 +16,7 @@ RUN apk --update upgrade && \
       mariadb-dev postgresql-dev python3-dev && \
     curl -RL -O "https://ftp.isc.org/isc/kea/${KEA_VERSION}/kea-${KEA_VERSION}.tar.gz{,.sha512.asc}" && \
     curl -RL -O "https://botan.randombit.net/releases/Botan-${BOTAN_VERSION}.tgz{.asc,}" && \
-    curl -v -RLJ -O "https://sourceforge.net/projects/log4cplus/files/log4cplus-stable/${LOG4CPLUS_VERSION}/log4cplus-${LOG4CPLUS_VERSION}.tar.gz{.sig,}/download" && \
+    curl -v -RLJ -O "https://sourceforge.net/projects/log4cplus/files/log4cplus-stable/`echo ${LOG4CPLUS_VERSION} | cut -d - -f 1`/log4cplus-${LOG4CPLUS_VERSION}.tar.gz{.sig,}/download" && \
     ls -al && \
     mkdir -v -m 0700 -p /root/.gnupg && \
     gpg2 --no-options --verbose --keyserver-options auto-key-retrieve=true --keyid-format 0xlong --verify Botan-*.asc Botan-*.tgz && \
