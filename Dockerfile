@@ -1,4 +1,4 @@
-ARG BOTAN_VERSION=2.5.0
+ARG BOTAN_VERSION=2.7.0
 
 FROM alpine AS builder
 
