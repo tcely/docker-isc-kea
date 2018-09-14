@@ -1,4 +1,4 @@
-ARG KEA_VERSION=1.3.0
+ARG KEA_VERSION=1.4.0-P1
 
 FROM tcely/isc-kea:dependency-log4cplus AS log4cplus
 
