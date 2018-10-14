@@ -41,7 +41,7 @@ LABEL maintainer="https://keybase.io/tcely"
 RUN apk --update upgrade && \
     apk add bash ca-certificates curl less man procps \
         boost bzip2 libressl sqlite zlib \
-        cassandra-cpp-driver mariadb-client-libs postgresql-libs python3 && \
+        mariadb-client postgresql-libs python3 && \
     rm -rf /var/cache/apk/*
 
 ENV PAGER less
