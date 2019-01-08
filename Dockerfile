@@ -1,4 +1,4 @@
-ARG KEA_VERSION=1.4.0-P1
+ARG KEA_VERSION=1.5.0
 
 FROM tcely/isc-kea:dependency-log4cplus AS log4cplus
 FROM tcely/isc-kea:dependency-botan AS botan
