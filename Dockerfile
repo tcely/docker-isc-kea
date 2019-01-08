@@ -27,7 +27,6 @@ RUN apk --update upgrade && \
         cd "kea-${KEA_VERSION}" && \
         ./configure \
             --enable-shell \
-            --enable-cql-static-lib \
             --with-cql=yes \
             --with-mysql=/usr/bin/mysql_config \
             --with-pgsql=/usr/bin/pg_config && \
