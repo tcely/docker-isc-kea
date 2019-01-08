@@ -14,7 +14,7 @@ RUN apk --update upgrade && \
     apk add bash ca-certificates curl && \
     apk add --virtual .build-depends \
         file gnupg g++ make pkgconf \
-        boost-dev bzip2-dev libressl-dev sqlite-dev zlib-dev \
+        boost-dev bzip2-dev libressl-dev sqlite-dev xz-dev zstd-dev zlib-dev \
         cassandra-cpp-driver-dev mariadb-dev postgresql-dev python3-dev && \
     curl -RL -O "https://ftp.isc.org/isc/kea/${KEA_VERSION}/kea-${KEA_VERSION}.tar.gz{,.sha512.asc}" && \
     mkdir -v -m 0700 -p /root/.gnupg && \
