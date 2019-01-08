@@ -30,8 +30,8 @@ RUN apk --update upgrade && \
         ./configure \
             --enable-shell \
             --with-cql=/usr/local/bin/cql_config \
-            --with-dhcp-mysql=/usr/bin/mysql_config \
-            --with-dhcp-pgsql=/usr/bin/pg_config && \
+            --with-mysql=/usr/bin/mysql_config \
+            --with-pgsql=/usr/bin/pg_config && \
         make -j 4 && \
         make install-strip \
     ) && \
