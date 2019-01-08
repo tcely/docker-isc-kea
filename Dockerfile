@@ -10,12 +10,10 @@ ARG KEA_VERSION
 COPY --from=log4cplus /usr/local /usr/local/
 COPY --from=botan /usr/local /usr/local/
 
-COPY cql_config /usr/local/bin/cql_config
-
 RUN apk --update upgrade && \
     apk add bash ca-certificates curl && \
     apk add --virtual .build-depends \
-        file gnupg g++ make \
+        file gnupg g++ make pkgconf \
         boost-dev bzip2-dev libressl-dev sqlite-dev zlib-dev \
         cassandra-cpp-driver-dev mariadb-dev postgresql-dev python3-dev && \
     curl -RL -O "https://ftp.isc.org/isc/kea/${KEA_VERSION}/kea-${KEA_VERSION}.tar.gz{,.sha512.asc}" && \
@@ -29,7 +27,7 @@ RUN apk --update upgrade && \
         cd "kea-${KEA_VERSION}" && \
         ./configure \
             --enable-shell \
-            --with-cql=/usr/local/bin/cql_config \
+            --with-cql=yes \
             --with-mysql=/usr/bin/mysql_config \
             --with-pgsql=/usr/bin/pg_config && \
         make -j 4 && \
