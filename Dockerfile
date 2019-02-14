@@ -14,7 +14,7 @@ RUN apk --update upgrade && \
     apk add bash ca-certificates curl && \
     apk add --virtual .build-depends \
         file gnupg g++ make \
-        boost-dev bzip2-dev libressl-dev sqlite-dev zlib-dev \
+        boost-dev bzip2-dev openssl-dev sqlite-dev zlib-dev \
         cassandra-cpp-driver-dev mariadb-dev postgresql-dev python3-dev && \
     curl -RL -O "https://ftp.isc.org/isc/kea/${KEA_VERSION}/kea-${KEA_VERSION}.tar.gz{,.sha512.asc}" && \
     mkdir -v -m 0700 -p /root/.gnupg && \
@@ -40,7 +40,7 @@ LABEL maintainer="https://keybase.io/tcely"
 
 RUN apk --update upgrade && \
     apk add bash ca-certificates curl less man procps \
-        boost bzip2 libressl sqlite zlib \
+        boost bzip2 openssl sqlite zlib \
         cassandra-cpp-driver mariadb-client-libs postgresql-libs python3 && \
     rm -rf /var/cache/apk/*
 
